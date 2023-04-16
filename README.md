@@ -1,15 +1,27 @@
-Athena Plugin - Food & Water
-A food and water plugin for the Athena Framework compatible with 4.0.0 of the Athena Framework.
+# Athena Plugin - Weather
 
-Installation
-Open a command prompt in your main Athena Directory.
-Navigate to the plugins folder.
+A weather plugin for the Athena Framework compatible with `4.0.0` of the [Athena Framework](https://athenaframework.com/).
+
+## Installation
+
+1. Open a command prompt in your main Athena Directory.
+2. Navigate to the plugins folder.
+
+```ts
 cd src/core/plugins
-Copy the command below.
-SSH
+```
 
+3. Copy the command below.
+
+**SSH**
+
+```
 git@github.com:Fanatic191/Athena-core-weatherv5.git
-HTTPS
+```
 
+**HTTPS**
+```
 https://github.com/Fanatic191/Athena-core-weatherv5.git
-Start the Server
+```
+
+4. Start the Server
