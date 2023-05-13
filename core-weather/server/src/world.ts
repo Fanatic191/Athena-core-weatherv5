@@ -1,6 +1,7 @@
 import { WEATHER_CONFIG } from '@AthenaPlugins/core-weather/shared/config';
 import { WORLD_WEATHER } from '@AthenaPlugins/core-weather/shared/weather';
 import * as alt from 'alt-server';
+import { WEATHER_EVENTS } from '@AthenaPlugins/core-weather/shared/events';
 
 let weatherRotation = [
     'EXTRASUNNY',
@@ -31,6 +32,21 @@ export class World {
     static minMaxGroups: Array<{ minY: number; maxY: number }>;
     static hour: number = WEATHER_CONFIG.BOOTUP_HOUR;
     static minute: number = WEATHER_CONFIG.BOOTUP_MINUTE;
+
+    static init() {
+        alt.setInterval(World.updateWorldTime, 60000);
+        World.generateGrid(worldDivision);
+        World.updateWorldTime();
+
+        alt.onClient(WEATHER_EVENTS.GET_WEATHER_UPDATE, World.getWeatherUpdate);
+    }
+
+    static getWeatherUpdate(player: alt.Player) {
+        const gridspace = World.getGridSpace(player);
+        const weather = World.getWeatherByGrid(gridspace);
+
+        alt.emitClient(player, WEATHER_EVENTS.UPDATE_WEATHER, weather);
+    }
 
     /**
      * --- Top of Map ---
@@ -123,6 +139,13 @@ export class World {
         }
 
         World.minMaxGroups = groups;
+    }
+
+    static updateWorldWeather(): void {
+        if (weatherOverride) {
+            alt.emitAllClients('weather:Update', weatherOverrideName);
+            return;
+        }
     }
 
     static updateWorldTime(): void {
@@ -222,7 +245,3 @@ export class World {
         return World.minute;
     }
 }
-
-alt.setInterval(World.updateWorldTime, 60000);
-World.generateGrid(worldDivision);
-World.updateWorldTime();

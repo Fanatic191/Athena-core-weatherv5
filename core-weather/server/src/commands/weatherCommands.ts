@@ -7,6 +7,8 @@ import { World } from '../world';
 
 export class WeatherCommands {
     static init() {
+        Athena.systems.defaults.weather.disable();
+
         Athena.systems.messenger.commands.register(
             'setweather',
             LocaleController.get(LOCALE_KEYS.COMMAND_SET_WEATHER, '/setweather'),
